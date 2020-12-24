@@ -23,7 +23,7 @@ globals:
   wsPort: 1880
   redirPort: 7654
   
-onAfterRestartNode[cp]: setRedirect
+onAfterRestartContainer[cp]: setRedirect
 
 onInstall:
 - script: /scripts/add-redirect.js
@@ -42,7 +42,7 @@ onInstall:
     
 actions:
   setRedirect:
-    cmd[cp]: iptables -t nat -I PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports ${globals.redirPort}
+    cmd[cp]: iptables -t nat -I PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports ${globals.redirPort} && iptables-save
 
 success:
   text: Start building your Node-RED IoT connectivity flows just now - click Open in Browser for the dedicated web-based editor launch.
